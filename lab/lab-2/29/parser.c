@@ -40,7 +40,6 @@ void assignment()
     } else {
         error ("syntax error in assignment");
     }
-    
 }
 
 void expr ()

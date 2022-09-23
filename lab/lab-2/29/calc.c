@@ -34,14 +34,11 @@ void calc (int token_type, int token_value)  /* calculates expressions */
     case '^':
     {
         int i, a, b;
-        a = pop();
-        b = pop();
-        x = 1;
+        a = pop(); b = pop(); x = 1;
         for (i=0; i<a; i++) {
             x *= b;
         }
-        push(x);
-        break;
+        push(x); break;
     }
     case '=':
     {
