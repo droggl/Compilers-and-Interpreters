@@ -1,0 +1,35 @@
+Part A:
+
+1. Where was the problem?
+- in abscissa.cpp line 247
+2. Why did the program crash, and how did you find that reason?
+- because of a segmentation fault because of an access to a wrong address, function anslutningspropp is called with the address 0, found by debugging with gdb
+3. What did you do to fix the problem? 
+- comment out the line 247 in abscissa.cpp that didn't work 
+
+Part B:
+
+4. Which of the phases and other parts of a compiler are present in the 2.9 program?
+    Scanner, Parser
+5. How are they implemented?
+    First a lexical analyzer scans the input 
+6. Which are missing?
+    Semantic Analizer, Intermediate Code Generator, Code Optimizer, Code Generator, Machine.Dependant Code Optimizer
+7. If you were to modify the 2.9 program so it actually calculates the values of the expressions, and not just prints out postfix code, how would you do that?
+- To calculate the values you can use a stack machine on the generated postfix output:
+    - push numbers in top of stack
+    - if operator: take two top numbers and push the result of the operation
+
+Part C:
+
+8. Does the macro work? (Addendum: Also show the macro!)
+- No, it does not work.
+  #define FACTORIAL(n) (n==0 ? 1 : n*FACTORIAL(n-1))
+
+9. Why, or why not?
+- The self reference is not considered a macro call to prevent an infinitely large expansion. So the preprocessing result of "FACTORIAL(3)" is just "(3==0 ? 1 : 3*FACTORIAL(3 -1))"
+
+10. If it doesn't work: Explain how the C preprocessor would have to be modified for the macro to work!
+- The preprocessor would have to expand the self reference and evaluate the calculation of the values to reach the stopping criterium and prevent a infinitely large expansion.
+
+
