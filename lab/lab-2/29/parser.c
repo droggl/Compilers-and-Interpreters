@@ -100,7 +100,6 @@ void moreexponential()
         moreexponential();
     } else {
     }
-    
 }
 
 void factor ()
