@@ -6,9 +6,9 @@ extern int yyerror(char const *msg);
 extern int yylex();
 %}
 
-%token PLUS MINUS STAR LPAREN RPAREN NUMBER NEWLINE
+%token PLUS MINUS STAR SLASH LPAREN RPAREN NUMBER NEWLINE
 %left PLUS MINUS
-%left STAR
+%left STAR SLASH
 
 %%
 line : /* empty */
@@ -17,6 +17,7 @@ expr : LPAREN expr RPAREN     { $$ = $2; }
      | expr PLUS expr         { $$ = $1 + $3; }
      | expr MINUS expr        { $$ = $1 - $3; }
      | expr STAR expr         { $$ = $1 * $3; }
+     | expr SLASH expr        { $$ = $1 / $3; }
      | NUMBER                 { $$ = $1; }
      ;
 
