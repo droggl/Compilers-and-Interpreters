@@ -66,13 +66,13 @@
 
 
 /* First part of user prologue.  */
-#line 3 "example.y"
+#line 3 "calc.y"
 
 #include <stdio.h>
 extern int yyerror(char const *msg);
 extern int yylex();
 
-#line 76 "example.tab.c"
+#line 76 "calc.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -105,8 +105,8 @@ extern int yylex();
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
-#ifndef YY_YY_EXAMPLE_TAB_H_INCLUDED
-# define YY_YY_EXAMPLE_TAB_H_INCLUDED
+#ifndef YY_YY_CALC_TAB_H_INCLUDED
+# define YY_YY_CALC_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -143,7 +143,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_EXAMPLE_TAB_H_INCLUDED  */
+#endif /* !YY_YY_CALC_TAB_H_INCLUDED  */
 
 
 
@@ -1299,49 +1299,49 @@ yyreduce:
   switch (yyn)
     {
   case 3:
-#line 15 "example.y"
+#line 15 "calc.y"
                               { printf("%d\n", yyvsp[-1]); }
-#line 1305 "example.tab.c"
+#line 1305 "calc.tab.c"
     break;
 
   case 4:
-#line 16 "example.y"
+#line 16 "calc.y"
                               { yyval = yyvsp[-1]; }
-#line 1311 "example.tab.c"
+#line 1311 "calc.tab.c"
     break;
 
   case 5:
-#line 17 "example.y"
+#line 17 "calc.y"
                               { yyval = yyvsp[-2] + yyvsp[0]; }
-#line 1317 "example.tab.c"
+#line 1317 "calc.tab.c"
     break;
 
   case 6:
-#line 18 "example.y"
+#line 18 "calc.y"
                               { yyval = yyvsp[-2] - yyvsp[0]; }
-#line 1323 "example.tab.c"
+#line 1323 "calc.tab.c"
     break;
 
   case 7:
-#line 19 "example.y"
+#line 19 "calc.y"
                               { yyval = yyvsp[-2] * yyvsp[0]; }
-#line 1329 "example.tab.c"
+#line 1329 "calc.tab.c"
     break;
 
   case 8:
-#line 20 "example.y"
+#line 20 "calc.y"
                               { yyval = yyvsp[-2] / yyvsp[0]; }
-#line 1335 "example.tab.c"
+#line 1335 "calc.tab.c"
     break;
 
   case 9:
-#line 21 "example.y"
+#line 21 "calc.y"
                               { yyval = yyvsp[0]; }
-#line 1341 "example.tab.c"
+#line 1341 "calc.tab.c"
     break;
 
 
-#line 1345 "example.tab.c"
+#line 1345 "calc.tab.c"
 
       default: break;
     }
@@ -1573,7 +1573,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 24 "example.y"
+#line 24 "calc.y"
 
 
 int yyerror(char const *msg) {

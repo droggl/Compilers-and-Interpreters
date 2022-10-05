@@ -2,7 +2,7 @@
 
 %{
 #include <stdio.h>
-#include "example.tab.h"
+#include "calc.tab.h"
 %}
 
 %option noyywrap

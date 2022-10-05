@@ -1,14 +1,14 @@
 CC = gcc
 CFLAGS += -Wall -std=c99 -g
 
-example: example.tab.o example.tab.h lex.yy.o
-	gcc $(CFLAGS) -o example example.tab.o lex.yy.o
+calc: calc.tab.o calc.tab.h lex.yy.o
+	gcc $(CFLAGS) -o calc calc.tab.o lex.yy.o
 
-example.tab.c example.tab.h: example.y
-	bison -d example.y
+calc.tab.c calc.tab.h: calc.y
+	bison -d calc.y
 
-lex.yy.c: example.l
-	flex example.l
+lex.yy.c: calc.l
+	flex calc.l
 
 clean:
-	$(RM) example example.tab.o example.tab.c example.tab.h lex.yy.o lex.yy.c
+	$(RM) calc calc.tab.o calc.tab.c calc.tab.h lex.yy.o lex.yy.c

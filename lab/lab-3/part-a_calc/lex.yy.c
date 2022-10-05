@@ -446,11 +446,11 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "example.l"
+#line 1 "calc.l"
 /* example.lex */
-#line 4 "example.l"
+#line 4 "calc.l"
 #include <stdio.h>
-#include "example.tab.h"
+#include "calc.tab.h"
 #line 455 "lex.yy.c"
 #line 456 "lex.yy.c"
 
@@ -669,7 +669,7 @@ YY_DECL
 		}
 
 	{
-#line 10 "example.l"
+#line 10 "calc.l"
 
 
 #line 676 "lex.yy.c"
@@ -731,58 +731,58 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "example.l"
+#line 12 "calc.l"
 { /* ignore whitespace */ }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 13 "example.l"
+#line 13 "calc.l"
 { return LPAREN; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 14 "example.l"
+#line 14 "calc.l"
 { return RPAREN; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 15 "example.l"
+#line 15 "calc.l"
 { return PLUS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 16 "example.l"
+#line 16 "calc.l"
 { return MINUS; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 17 "example.l"
+#line 17 "calc.l"
 { return STAR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 18 "example.l"
+#line 18 "calc.l"
 { return SLASH; }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 19 "example.l"
+#line 19 "calc.l"
 { return NEWLINE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 20 "example.l"
+#line 20 "calc.l"
 { yylval = atoi(yytext); return NUMBER; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 21 "example.l"
+#line 21 "calc.l"
 { printf("Ignoring invalid character '%s'\n", yytext); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 23 "example.l"
+#line 23 "calc.l"
 ECHO;
 	YY_BREAK
 #line 789 "lex.yy.c"
@@ -1790,6 +1790,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 23 "example.l"
+#line 23 "calc.l"
 
 
