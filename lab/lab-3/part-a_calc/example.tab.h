@@ -55,9 +55,8 @@ extern int yydebug;
     SLASH = 261,
     LPAREN = 262,
     RPAREN = 263,
-    NUM = 264,
-    NEWLINE = 265,
-    EQUALS = 266
+    NUMBER = 264,
+    NEWLINE = 265
   };
 #endif
 

@@ -16,9 +16,8 @@
 "-"       { return MINUS; }
 "*"       { return STAR; }
 "/"       { return SLASH; }
-"="       { return EQUALS; }
 \n        { return NEWLINE; }
-[0-9]+    { yylval = atoi(yytext); return NUM; }
+[0-9]+    { yylval = atoi(yytext); return NUMBER; }
 .         { printf("Ignoring invalid character '%s'\n", yytext); }
 
 %%

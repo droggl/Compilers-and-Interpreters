@@ -126,9 +126,8 @@ extern int yydebug;
     SLASH = 261,
     LPAREN = 262,
     RPAREN = 263,
-    NUM = 264,
-    NEWLINE = 265,
-    EQUALS = 266
+    NUMBER = 264,
+    NEWLINE = 265
   };
 #endif
 
@@ -453,7 +452,7 @@ union yyalloc
 #define YYLAST   24
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  12
+#define YYNTOKENS  11
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
@@ -462,7 +461,7 @@ union yyalloc
 #define YYNSTATES  17
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   266
+#define YYMAXUTOK   265
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -500,14 +499,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11
+       5,     6,     7,     8,     9,    10
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    15,    15,    16,    17,    18,    19,    20,    21,    22
+       0,    14,    14,    15,    16,    17,    18,    19,    20,    21
 };
 #endif
 
@@ -517,8 +516,7 @@ static const yytype_int8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "PLUS", "MINUS", "STAR", "SLASH",
-  "LPAREN", "RPAREN", "NUM", "NEWLINE", "EQUALS", "$accept", "line",
-  "expr", YY_NULLPTR
+  "LPAREN", "RPAREN", "NUMBER", "NEWLINE", "$accept", "line", "expr", YY_NULLPTR
 };
 #endif
 
@@ -528,7 +526,7 @@ static const char *const yytname[] =
 static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266
+     265
 };
 # endif
 
@@ -592,14 +590,14 @@ static const yytype_int8 yycheck[] =
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    13,     0,     7,     9,    14,    14,     3,     4,     5,
-       6,    10,     8,    14,    14,    14,    14
+       0,    12,     0,     7,     9,    13,    13,     3,     4,     5,
+       6,    10,     8,    13,    13,    13,    13
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    12,    13,    13,    14,    14,    14,    14,    14,    14
+       0,    11,    12,    12,    13,    13,    13,    13,    13,    13
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -1301,49 +1299,49 @@ yyreduce:
   switch (yyn)
     {
   case 3:
-#line 16 "example.y"
+#line 15 "example.y"
                               { printf("%d\n", yyvsp[-1]); }
-#line 1307 "example.tab.c"
+#line 1305 "example.tab.c"
     break;
 
   case 4:
-#line 17 "example.y"
+#line 16 "example.y"
                               { yyval = yyvsp[-1]; }
-#line 1313 "example.tab.c"
+#line 1311 "example.tab.c"
     break;
 
   case 5:
-#line 18 "example.y"
+#line 17 "example.y"
                               { yyval = yyvsp[-2] + yyvsp[0]; }
-#line 1319 "example.tab.c"
+#line 1317 "example.tab.c"
     break;
 
   case 6:
-#line 19 "example.y"
+#line 18 "example.y"
                               { yyval = yyvsp[-2] - yyvsp[0]; }
-#line 1325 "example.tab.c"
+#line 1323 "example.tab.c"
     break;
 
   case 7:
-#line 20 "example.y"
+#line 19 "example.y"
                               { yyval = yyvsp[-2] * yyvsp[0]; }
-#line 1331 "example.tab.c"
+#line 1329 "example.tab.c"
     break;
 
   case 8:
-#line 21 "example.y"
+#line 20 "example.y"
                               { yyval = yyvsp[-2] / yyvsp[0]; }
-#line 1337 "example.tab.c"
+#line 1335 "example.tab.c"
     break;
 
   case 9:
-#line 22 "example.y"
+#line 21 "example.y"
                               { yyval = yyvsp[0]; }
-#line 1343 "example.tab.c"
+#line 1341 "example.tab.c"
     break;
 
 
-#line 1347 "example.tab.c"
+#line 1345 "example.tab.c"
 
       default: break;
     }
@@ -1575,20 +1573,12 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 25 "example.y"
+#line 24 "example.y"
 
 
 int yyerror(char const *msg) {
     printf("Error: %s\n", msg);
     return 0;
-}
-
-// int yylex() {
-//     return lexan();
-// }
-
-void parse() {
-    yyparse();
 }
 
 int main() {
