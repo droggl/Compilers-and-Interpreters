@@ -1,7 +1,7 @@
-OBJECTS = lexer.o parser.tab.o emitter.o symbol.o init.o error.o main.o 
+OBJECTS = lexer.o parser.tab.o emitter.o symbol.o init.o error.o main.o
 SOURCES = lexer.cpp parser.tab.cpp emitter.cpp symbol.cpp init.cpp error.cpp main.cpp
 EXE = infix2postfix
-CFLAGS += -Wall -g 
+CFLAGS += -Wall -g
 
 $(EXE):	$(OBJECTS)
 	gcc $(CFLAGS) -o $(EXE) $(OBJECTS) -lm
@@ -30,7 +30,7 @@ error.o: 	error.cpp global.h
 parser.tab.cpp parser.tab.hpp: parser.ypp
 	bison -d parser.ypp
 
-clean: 
+clean:
 	rm -f $(EXE) $(OBJECTS) parser.tab.hpp parser.tab.cpp 29.tar.gz 29.zip *~
 
 archives: clean

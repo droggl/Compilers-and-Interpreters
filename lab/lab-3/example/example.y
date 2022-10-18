@@ -7,7 +7,7 @@ extern int yyerror(char const *msg);
 extern int yylex();
 %}
 
-%token DONE ID NUM DIV MOD 
+%token DONE ID NUM DIV MOD
 // %token PLUS MINUS STAR SLASH LPAREN RPAREN NUM NEWLINE EQUALS
 %left PLUS MINUS
 %left STAR SLASH
