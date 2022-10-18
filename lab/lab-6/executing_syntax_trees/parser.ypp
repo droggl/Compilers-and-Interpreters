@@ -24,24 +24,24 @@
 
 %token <iValue> ID
 %token <iValue> NUM
-%token DONE WHILE ELSE IF PRINT READ
+%token EXECUTE WHILE ELSE IF PRINT READ
 %nonassoc IFX
 %nonassoc ELSE
 
 %left '&' '|' '<' '>' '?' ':'
 %left '+' '-'
-%left '*'
-%left '/' '%'
+%left '*' '/'
+%left '%'
 %left '^'
 
 %%
 
 start:
-    list DONE           { printf("Executing code:\n"); execute($1); }
+      list EXECUTE           { printf("Executing code:\n"); execute($1); }
     ;
 list:
       stmt list         { $$ = mknode(';', $1, $2); }
-    |                   { }
+    |                   { $$ = mknode(' '); }
     ;
 stmt:
       ';'                                           { $$ = mknode(';'); }

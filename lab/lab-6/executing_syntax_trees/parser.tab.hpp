@@ -51,7 +51,7 @@ extern int yydebug;
   {
     ID = 258,
     NUM = 259,
-    DONE = 260,
+    EXECUTE = 260,
     WHILE = 261,
     ELSE = 262,
     IF = 263,

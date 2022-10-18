@@ -1,5 +1,5 @@
-OBJECTS = lex.yy.o parser.tab.o executer.o symbol.o
-SOURCES = lex.yy.c parser.tab.cpp executer.cpp symbol.cpp
+OBJECTS = lex.yy.o parser.tab.o syntax_tree.o symbol.o
+SOURCES = lex.yy.c parser.tab.cpp syntax_tree.cpp symbol.cpp
 EXE = infix2postfix
 CFLAGS += -Wall -g
 
@@ -9,8 +9,8 @@ $(EXE):	$(OBJECTS)
 symbol.o: 	symbol.cpp global.h
 	g++ $(CFLAGS) -c symbol.cpp
 
-executer.o: executer.cpp global.h
-	g++ $(CFLAGS) -c executer.cpp
+syntax_tree.o: syntax_tree.cpp global.h
+	g++ $(CFLAGS) -c syntax_tree.cpp
 
 lex.yy.o:	lex.yy.c global.h parser.tab.hpp
 	g++ $(CFLAGS) -c lex.yy.c

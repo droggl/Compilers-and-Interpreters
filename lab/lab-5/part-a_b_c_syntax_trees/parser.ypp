@@ -48,7 +48,7 @@ start:
     ;
 list:
       stmt list         { $$ = mknode(';', $1, $2); }
-    |                   { }
+    |                   { $$ = mknode(' '); }
     ;
 stmt:
       ';'                                           { $$ = mknode(';'); }

@@ -11,7 +11,7 @@
 
 %%
 
-QQ     return DONE;
+!exe     return EXECUTE;
 
 
     /* numbers */

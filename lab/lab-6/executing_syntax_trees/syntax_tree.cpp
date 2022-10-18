@@ -35,18 +35,17 @@ TreeNode* mknode(int type, TreeNode* a0=0, TreeNode* a1=0, TreeNode* a2=0, TreeN
 int execute(TreeNode* p) {
     if (p != 0) {
         switch (p->type) {
+            case ' ':
+                break;
             case NUM:
                 return p->leaf_value;
             case ID:
-                // printf("CHECKING ID for %d\n", p->leaf_value);
                 if (symtable[p->leaf_value].value_initialized){
-                    // printf("ERROR FOLLOWING?\n");
                     return symtable[p->leaf_value].value;
                 }
                 else
-                    printf("Variable not initialized!");
+                    printf("Error: variable %s not initialized!", symtable[p->leaf_value].lexeme);
                 break;
-                    /* return p->leaf_value; */
             case '+':
                 return execute(p->args[0]) + execute(p->args[1]);
             case '-':
@@ -71,9 +70,10 @@ int execute(TreeNode* p) {
             {
                 symtable[p->args[0]->leaf_value].value = execute(p->args[1]);
                 symtable[p->args[0]->leaf_value].value_initialized = true;
-                // printf("new value  %d for lexeme %s\n", p->args[0]->leaf_value, symtable[p->args[0]->leaf_value].lexeme);
                 break;
             }
+            case '?':
+                return execute(p->args[0]) ? execute(p->args[1]) : execute(p->args[2]);
             case IF:
             {
                 int condition = execute(p->args[0]);
