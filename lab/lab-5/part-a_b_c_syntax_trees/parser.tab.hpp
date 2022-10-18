@@ -56,7 +56,8 @@ extern int yydebug;
     ELSE = 262,
     IF = 263,
     PRINT = 264,
-    READ = 265
+    READ = 265,
+    IFX = 266
   };
 #endif
 
@@ -69,7 +70,7 @@ union YYSTYPE
     struct TreeNode* p;
     int iValue;
 
-#line 73 "parser.tab.hpp"
+#line 74 "parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
