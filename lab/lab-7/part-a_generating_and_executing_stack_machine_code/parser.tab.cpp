@@ -81,8 +81,9 @@
     extern void print_syntax_tree(TreeNode* n);
     extern void printtree1(TreeNode* p, int level);
     extern int execute(TreeNode* p);
+    extern void execute_in_stack_machine(TreeNode* p);
 
-#line 86 "parser.tab.cpp"
+#line 87 "parser.tab.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -146,12 +147,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.ypp"
+#line 20 "parser.ypp"
 
     struct TreeNode* p;
     int iValue;
 
-#line 155 "parser.tab.cpp"
+#line 156 "parser.tab.cpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -527,10 +528,10 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    40,    40,    43,    44,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    56,    59,    60,    63,    64,    65,
-      66,    67,    68,    69,    70,    71,    72,    73,    74,    75,
-      76
+       0,    41,    41,    45,    46,    49,    50,    51,    52,    53,
+      54,    55,    56,    57,    58,    61,    62,    65,    66,    67,
+      68,    69,    70,    71,    72,    73,    74,    75,    76,    77,
+      78
 };
 #endif
 
@@ -1378,181 +1379,181 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 40 "parser.ypp"
-                             { printf("Executing code:\n"); execute((yyvsp[-1].p)); }
-#line 1384 "parser.tab.cpp"
+#line 41 "parser.ypp"
+                            { execute_in_stack_machine((yyvsp[-1].p)); }
+#line 1385 "parser.tab.cpp"
     break;
 
   case 3:
-#line 43 "parser.ypp"
+#line 45 "parser.ypp"
                         { (yyval.p) = mknode(';', (yyvsp[-1].p), (yyvsp[0].p)); }
-#line 1390 "parser.tab.cpp"
+#line 1391 "parser.tab.cpp"
     break;
 
   case 4:
-#line 44 "parser.ypp"
+#line 46 "parser.ypp"
                         { (yyval.p) = mknode(' '); }
-#line 1396 "parser.tab.cpp"
+#line 1397 "parser.tab.cpp"
     break;
 
   case 5:
-#line 47 "parser.ypp"
+#line 49 "parser.ypp"
                                                     { (yyval.p) = mknode(';'); }
-#line 1402 "parser.tab.cpp"
+#line 1403 "parser.tab.cpp"
     break;
 
   case 6:
-#line 48 "parser.ypp"
+#line 50 "parser.ypp"
                                                     { (yyval.p) = (yyvsp[-1].p); }
-#line 1408 "parser.tab.cpp"
+#line 1409 "parser.tab.cpp"
     break;
 
   case 7:
-#line 49 "parser.ypp"
+#line 51 "parser.ypp"
                                                     { (yyval.p) = mknode('=', mkleaf(ID, (yyvsp[-3].iValue)), (yyvsp[-1].p)); }
-#line 1414 "parser.tab.cpp"
+#line 1415 "parser.tab.cpp"
     break;
 
   case 8:
-#line 50 "parser.ypp"
+#line 52 "parser.ypp"
                                                     { (yyval.p) = mknode(PRINT, mkleaf(ID, (yyvsp[-2].iValue))); }
-#line 1420 "parser.tab.cpp"
+#line 1421 "parser.tab.cpp"
     break;
 
   case 9:
-#line 51 "parser.ypp"
+#line 53 "parser.ypp"
                                                     { (yyval.p) = mknode(READ, mkleaf(ID, (yyvsp[-2].iValue))); }
-#line 1426 "parser.tab.cpp"
+#line 1427 "parser.tab.cpp"
     break;
 
   case 10:
-#line 52 "parser.ypp"
+#line 54 "parser.ypp"
                                                     { (yyval.p) = mknode(WHILE, (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1432 "parser.tab.cpp"
+#line 1433 "parser.tab.cpp"
     break;
 
   case 11:
-#line 53 "parser.ypp"
+#line 55 "parser.ypp"
                                                     { (yyval.p) = mknode(IF, (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1438 "parser.tab.cpp"
+#line 1439 "parser.tab.cpp"
     break;
 
   case 12:
-#line 54 "parser.ypp"
+#line 56 "parser.ypp"
                                                     { (yyval.p) = mknode(IF, (yyvsp[-4].p), (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1444 "parser.tab.cpp"
+#line 1445 "parser.tab.cpp"
     break;
 
   case 13:
-#line 55 "parser.ypp"
+#line 57 "parser.ypp"
                                                     { (yyval.p) = (yyvsp[-1].p); }
-#line 1450 "parser.tab.cpp"
+#line 1451 "parser.tab.cpp"
     break;
 
   case 14:
-#line 56 "parser.ypp"
+#line 58 "parser.ypp"
                                                     { (yyval.p) = mknode(' ');}
-#line 1456 "parser.tab.cpp"
+#line 1457 "parser.tab.cpp"
     break;
 
   case 15:
-#line 59 "parser.ypp"
+#line 61 "parser.ypp"
                         { (yyval.p) = (yyvsp[0].p); }
-#line 1462 "parser.tab.cpp"
+#line 1463 "parser.tab.cpp"
     break;
 
   case 16:
-#line 60 "parser.ypp"
+#line 62 "parser.ypp"
                         { (yyval.p) = mknode(';', (yyvsp[-1].p), (yyvsp[0].p)); }
-#line 1468 "parser.tab.cpp"
+#line 1469 "parser.tab.cpp"
     break;
 
   case 17:
-#line 63 "parser.ypp"
+#line 65 "parser.ypp"
                               { (yyval.p) = mkleaf(NUM, (yyvsp[0].iValue)); }
-#line 1474 "parser.tab.cpp"
+#line 1475 "parser.tab.cpp"
     break;
 
   case 18:
-#line 64 "parser.ypp"
+#line 66 "parser.ypp"
                               { (yyval.p) = mkleaf(ID, (yyvsp[0].iValue)); }
-#line 1480 "parser.tab.cpp"
+#line 1481 "parser.tab.cpp"
     break;
 
   case 19:
-#line 65 "parser.ypp"
+#line 67 "parser.ypp"
                               { (yyval.p) = mknode('+', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1486 "parser.tab.cpp"
+#line 1487 "parser.tab.cpp"
     break;
 
   case 20:
-#line 66 "parser.ypp"
+#line 68 "parser.ypp"
                               { (yyval.p) = mknode('-', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1492 "parser.tab.cpp"
+#line 1493 "parser.tab.cpp"
     break;
 
   case 21:
-#line 67 "parser.ypp"
+#line 69 "parser.ypp"
                               { (yyval.p) = mknode('*', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1498 "parser.tab.cpp"
+#line 1499 "parser.tab.cpp"
     break;
 
   case 22:
-#line 68 "parser.ypp"
+#line 70 "parser.ypp"
                               { (yyval.p) = mknode('/', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1504 "parser.tab.cpp"
+#line 1505 "parser.tab.cpp"
     break;
 
   case 23:
-#line 69 "parser.ypp"
+#line 71 "parser.ypp"
                               { (yyval.p) = mknode('%', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1510 "parser.tab.cpp"
+#line 1511 "parser.tab.cpp"
     break;
 
   case 24:
-#line 70 "parser.ypp"
+#line 72 "parser.ypp"
                               { (yyval.p) = mknode('^', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1516 "parser.tab.cpp"
+#line 1517 "parser.tab.cpp"
     break;
 
   case 25:
-#line 71 "parser.ypp"
+#line 73 "parser.ypp"
                               { (yyval.p) = mknode('&', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1522 "parser.tab.cpp"
+#line 1523 "parser.tab.cpp"
     break;
 
   case 26:
-#line 72 "parser.ypp"
+#line 74 "parser.ypp"
                               { (yyval.p) = mknode('|', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1528 "parser.tab.cpp"
+#line 1529 "parser.tab.cpp"
     break;
 
   case 27:
-#line 73 "parser.ypp"
+#line 75 "parser.ypp"
                               { (yyval.p) = mknode('<', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1534 "parser.tab.cpp"
+#line 1535 "parser.tab.cpp"
     break;
 
   case 28:
-#line 74 "parser.ypp"
+#line 76 "parser.ypp"
                               { (yyval.p) = mknode('>', (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1540 "parser.tab.cpp"
+#line 1541 "parser.tab.cpp"
     break;
 
   case 29:
-#line 75 "parser.ypp"
+#line 77 "parser.ypp"
                               { (yyval.p) = (yyvsp[-1].p); }
-#line 1546 "parser.tab.cpp"
+#line 1547 "parser.tab.cpp"
     break;
 
   case 30:
-#line 76 "parser.ypp"
+#line 78 "parser.ypp"
                               { (yyval.p) = mknode('?', (yyvsp[-4].p), (yyvsp[-2].p), (yyvsp[0].p)); }
-#line 1552 "parser.tab.cpp"
+#line 1553 "parser.tab.cpp"
     break;
 
 
-#line 1556 "parser.tab.cpp"
+#line 1557 "parser.tab.cpp"
 
       default: break;
     }
@@ -1784,7 +1785,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 79 "parser.ypp"
+#line 81 "parser.ypp"
 
 
 

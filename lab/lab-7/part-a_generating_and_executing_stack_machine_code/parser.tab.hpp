@@ -65,7 +65,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.ypp"
+#line 20 "parser.ypp"
 
     struct TreeNode* p;
     int iValue;

@@ -14,6 +14,7 @@
     extern void print_syntax_tree(TreeNode* n);
     extern void printtree1(TreeNode* p, int level);
     extern int execute(TreeNode* p);
+    extern void execute_in_stack_machine(TreeNode* p);
 %}
 
 %union {
@@ -37,7 +38,8 @@
 %%
 
 start:
-      list EXECUTE           { printf("Executing code:\n"); execute($1); }
+      list EXECUTE          { execute_in_stack_machine($1); }
+      //{ printf("Executing code:\n"); execute($1); }
     ;
 list:
       stmt list         { $$ = mknode(';', $1, $2); }

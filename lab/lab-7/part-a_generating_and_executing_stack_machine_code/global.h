@@ -5,6 +5,8 @@
 #include <stdlib.h> /* ... and for some standard routines, such as exit */
 #include <string.h> /* ... and for string routines */
 #include <math.h>
+#include <vector>
+#include <map>
 
 #include "parser.tab.hpp"
 
@@ -18,7 +20,6 @@ struct symentry {  /*  form of symbol table entry  */
     char *lexeme;
     int  token_type;
     int value;
-    bool value_initialized;
 };
 
 extern struct symentry symtable[];  /* symbol table  */

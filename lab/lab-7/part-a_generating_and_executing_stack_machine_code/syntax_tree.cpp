@@ -1,12 +1,18 @@
-#include "global.h"
 #include <iostream>
+#include <stdio.h>
+#include "global.h"
+#include "StackMachine.h"
 
 
 extern void print_syntax_tree(TreeNode* n);
 extern void printtree1(TreeNode* p, int level);
 extern int execute(TreeNode* p);
+extern int nr_symbols;
 
 #define MAX_ARGS 4
+
+StackMachine sm;
+int lowest_label = 1;
 
 struct TreeNode {
     int type;
@@ -22,13 +28,131 @@ TreeNode* mkleaf(int type, int value) {
 }
 
 TreeNode* mknode(int type, TreeNode* a0=0, TreeNode* a1=0, TreeNode* a2=0, TreeNode* a3=0) {
-  TreeNode* p = new TreeNode();
-  p->type = type;
-  p->args[0] = a0;
-  p->args[1] = a1;
-  p->args[2] = a2;
-  p->args[3] = a3;
-  return p;
+    TreeNode* p = new TreeNode();
+    p->type = type;
+    p->args[0] = a0;
+    p->args[1] = a1;
+    p->args[2] = a2;
+    p->args[3] = a3;
+
+    return p;
+}
+
+void push_to_stack(TreeNode* p) {
+    if (p == 0)
+        return;
+
+    switch (p->type) {
+        case ';':
+            push_to_stack(p->args[0]);
+            push_to_stack(p->args[1]);
+            return;
+        case ' ':
+            return;
+        case NUM:
+            printf("%d", p->leaf_value);
+            sm.append(Instruction(push, p->leaf_value));
+            return;
+        case ID:
+            printf("%s", symtable[p->leaf_value].lexeme);
+            sm.append(Instruction(rvalue, p->leaf_value));
+            return;
+        case '=':
+            sm.append(Instruction(lvalue, p->args[0]->leaf_value));
+            printf("%s", symtable[p->args[0]->leaf_value].lexeme);
+            push_to_stack(p->args[1]);
+
+            sm.append(Instruction(assign));
+            printf("%c", p->type);
+            return;
+        case READ:
+        {
+            sm.append(Instruction(lvalue, p->args[0]->leaf_value));
+            sm.append(Instruction(stackop_read));
+            sm.append(Instruction(assign));
+            return;
+        }
+        case PRINT:
+            sm.append(Instruction(rvalue, p->args[0]->leaf_value));
+            sm.append(Instruction(stackop_write));
+            return;
+        case '?':
+        case IF:
+        {
+            int label1 = lowest_label;
+            int label2 = lowest_label+1;
+            lowest_label+=2;
+            push_to_stack(p->args[0]);                          // push condition
+            sm.append(Instruction(gofalse, label1));      // jumpfalse to label 1
+            push_to_stack(p->args[1]);                          // push if part
+            sm.append(Instruction(jump, label2));       // jump to label 2 over else part
+            sm.append(Instruction(label, label1));        // label 1
+            push_to_stack(p->args[2]);                          // push else part
+            sm.append(Instruction(label, label2));      // label 2
+            return;
+        }
+        case WHILE:
+        {
+            int label1 = lowest_label;
+            int label2 = lowest_label+1;
+            lowest_label+=2;
+            sm.append(Instruction(label, label1));        // label 1
+            push_to_stack(p->args[0]);                          // push condition
+            sm.append(Instruction(gofalse, label2));    // jumpfalse to label 2
+            push_to_stack(p->args[1]);                          // push statement part
+            sm.append(Instruction(jump, label1));         // jump to label 1
+            sm.append(Instruction(label, label2));      // label 2
+            lowest_label++;
+            return;
+        }
+    }
+
+    push_to_stack(p->args[0]);
+    push_to_stack(p->args[1]);
+    push_to_stack(p->args[2]);
+    push_to_stack(p->args[3]);
+    printf("%c", p->type);
+    switch (p->type) {
+        case '+':
+            sm.append(Instruction(plus));
+            break;
+        case '-':
+            sm.append(Instruction(minus));
+            break;
+        case '*':
+            sm.append(Instruction(times));
+            break;
+        case '/':
+            sm.append(Instruction(divide));
+            break;
+        case '%':
+            sm.append(Instruction(modulo));
+            break;
+        case '&':
+            sm.append(Instruction(stackop_and));
+            break;
+        case '|':
+            sm.append(Instruction(stackop_or));
+            break;
+        case '<':
+            sm.append(Instruction(lt));
+            break;
+        case '>':
+            sm.append(Instruction(gt));
+            break;
+    }
+
+}
+
+void execute_in_stack_machine(TreeNode* p) {
+    push_to_stack(p);
+    printf("\n");
+    sm.append(Instruction(halt));
+    sm.showstate();
+    sm.list_program();
+    sm.set_trace(1);
+    sm.run();
+
 }
 
 
@@ -40,7 +164,7 @@ int execute(TreeNode* p) {
             case NUM:
                 return p->leaf_value;
             case ID:
-                if (symtable[p->leaf_value].value_initialized){
+                if (symtable[p->leaf_value].value != -1){
                     return symtable[p->leaf_value].value;
                 }
                 else
@@ -69,7 +193,6 @@ int execute(TreeNode* p) {
             case '=':
             {
                 symtable[p->args[0]->leaf_value].value = execute(p->args[1]);
-                symtable[p->args[0]->leaf_value].value_initialized = true;
                 break;
             }
             case '?':
@@ -95,7 +218,6 @@ int execute(TreeNode* p) {
                 int n;
                 std::cin >> n;
                 symtable[p->args[0]->leaf_value].value = n;
-                symtable[p->args[0]->leaf_value].value_initialized = true;
                 break;
             }
             case ';':
