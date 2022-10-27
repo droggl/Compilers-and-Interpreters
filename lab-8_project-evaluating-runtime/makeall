@@ -1,0 +1,14 @@
+cd recursive_execution
+make
+
+cd ../recursive_execution_with_optimization
+make
+
+cd ../stack_machine
+make
+
+cd ../stack_machine_with_optimization
+make
+
+cd ../cpp_program
+g++ cpp-program.cpp -o cpp-program

@@ -1,0 +1,98 @@
+/* parser.y */
+
+%{
+    #include <stdio.h>
+
+    #include <math.h>
+    #include "global.h"
+
+
+
+    extern int yyerror(char const *msg);
+    extern int yylex();
+
+    extern TreeNode* mkleaf(int type, int value);
+    extern TreeNode* mknode(int type, TreeNode* a0=0, TreeNode* a1=0, TreeNode* a2=0, TreeNode* a3=0);
+    extern void print_syntax_tree(TreeNode* n);
+    extern void printtree1(TreeNode* p, int level);
+    extern int execute(TreeNode* p);
+    extern void execute_in_stack_machine(TreeNode* p);
+%}
+
+%union {
+    struct TreeNode* p;
+    int iValue;
+}
+%type <p> list stmt expr stmt_list;
+
+%token <iValue> ID
+%token <iValue> NUM
+%token EXECUTE WHILE ELSE IF PRINT READ
+%nonassoc IFX
+%nonassoc ELSE
+
+%left '&' '|' '<' '>' '?' ':'
+%left '+' '-'
+%left '*' '/'
+%left '%'
+%left '^'
+
+%%
+
+start:
+      list EXECUTE          {
+                                execute_in_stack_machine($1);
+                            }
+    ;
+list:
+      stmt list         { $$ = mknode(';', $1, $2); }
+    |                   { $$ = mknode(' '); }
+    ;
+stmt:
+      ';'                                           { $$ = mknode(';'); }
+    | expr ';'                                      { $$ = $1; }
+    | ID '=' expr ';'                               { $$ = mknode('=', mkleaf(ID, $1), $3); }
+    | PRINT '(' ID ')' ';'                          { $$ = mknode(PRINT, mkleaf(ID, $3)); }
+    | READ '(' ID ')' ';'                           { $$ = mknode(READ, mkleaf(ID, $3)); }
+    | WHILE '(' expr ')' stmt                       { $$ = mknode(WHILE, $3, $5); }
+    | IF '(' expr ')' stmt %prec IFX                { $$ = mknode(IF, $3, $5); }
+    | IF '(' expr ')' stmt ELSE stmt                { $$ = mknode(IF, $3, $5, $7); }
+    | '{' stmt_list '}'                             { $$ = $2; }
+    | '{' '}'                                       { $$ = mknode(' ');}
+    ;
+stmt_list:
+      stmt              { $$ = $1; }
+    | stmt_list stmt    { $$ = mknode(';', $1, $2); }
+    ;
+expr :
+      NUM                     { $$ = mkleaf(NUM, $1); }
+    | ID                      { $$ = mkleaf(ID, $1); }
+    | expr '+' expr           { $$ = mknode('+', $1, $3); }
+    | expr '-' expr           { $$ = mknode('-', $1, $3); }
+    | expr '*' expr           { $$ = mknode('*', $1, $3); }
+    | expr '/' expr           { $$ = mknode('/', $1, $3); }
+    | expr '%' expr           { $$ = mknode('%', $1, $3); }
+    | expr '^' expr           { $$ = mknode('^', $1, $3); }
+    | expr '&' expr           { $$ = mknode('&', $1, $3); }
+    | expr '|' expr           { $$ = mknode('|', $1, $3); }
+    | expr '<' expr           { $$ = mknode('<', $1, $3); }
+    | expr '>' expr           { $$ = mknode('>', $1, $3); }
+    | '(' expr ')'            { $$ = $2; }
+    | expr '?' expr ':' expr  { $$ = mknode('?', $1, $3, $5); }
+    ;
+
+%%
+
+
+
+
+
+int yyerror(char const *msg) {
+    printf("Error: %s\n", msg);
+    return 0;
+}
+
+int main() {
+    yyparse();
+    exit(0);
+}

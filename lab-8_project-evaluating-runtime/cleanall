@@ -1,0 +1,14 @@
+cd recursive_execution
+make clean
+
+cd ../recursive_execution_with_optimization
+make clean
+
+cd ../stack_machine
+make clean
+
+cd ../stack_machine_with_optimization
+make clean
+
+cd ../cpp_program
+rm cpp-program
