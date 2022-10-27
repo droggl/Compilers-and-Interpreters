@@ -1,0 +1,179 @@
+/* parser.y */
+
+%{
+    #include <stdio.h>
+    #include <math.h>
+    #include "global.h"
+
+    extern int yyerror(char const *msg);
+    extern int yylex();
+
+
+    #define MAX_ARGS 4
+
+    struct TreeNode {
+        int type;
+        int leaf_value;
+        TreeNode* args[MAX_ARGS];
+    };
+
+    TreeNode* mkleaf(int type, int value);
+    TreeNode* mknode(int type, TreeNode* a0=0, TreeNode* a1=0, TreeNode* a2=0, TreeNode* a3=0);
+    void print_syntax_tree(TreeNode* n);
+    void printtree1(TreeNode* p, int level);
+%}
+
+%union {
+    struct TreeNode* p;
+    int iValue;
+}
+%type <p> list stmt expr stmt_list;
+
+%token <iValue> ID
+%token <iValue> NUM
+%token DONE WHILE ELSE IF PRINT READ
+%nonassoc IFX
+%nonassoc ELSE
+
+%left '?'
+%left '&' '|' '<' '>' ':'
+%left '+' '-'
+%left '*' '/'
+%left '%'
+%left '^'
+
+%%
+
+start:
+    list DONE           { print_syntax_tree($1); }
+    ;
+list:
+      stmt list         { $$ = mknode(';', $1, $2); }
+    |                   { $$ = mknode(' '); }
+    ;
+stmt:
+      ';'                                           { $$ = mknode(';'); }
+    | expr ';'                                      { $$ = $1; }
+    | ID '=' expr ';'                               { $$ = mknode('=', mkleaf(ID, $1), $3); }
+    | PRINT '(' ID ')' ';'                          { $$ = mknode(PRINT, mkleaf(ID, $3)); }
+    | READ '(' ID ')' ';'                           { $$ = mknode(READ, mkleaf(ID, $3)); }
+    | WHILE '(' expr ')' stmt                       { $$ = mknode(WHILE, $3, $5); }
+    | IF '(' expr ')' stmt %prec IFX                { $$ = mknode(IF, $3, $5); }
+    | IF '(' expr ')' stmt ELSE stmt                { $$ = mknode(IF, $3, $5, $7); }
+    | '{' stmt_list '}'                             { $$ = $2; }
+    | '{' '}'                                       { $$ = mknode(' ');}
+    ;
+stmt_list:
+      stmt              { $$ = $1; }
+    | stmt_list stmt    { $$ = mknode(';', $1, $2); }
+    ;
+expr :
+      NUM                     { $$ = mkleaf(NUM, $1); }
+    | ID                      { $$ = mkleaf(ID, $1); }
+    | expr '+' expr           { $$ = mknode('+', $1, $3); }
+    | expr '-' expr           { $$ = mknode('-', $1, $3); }
+    | expr '*' expr           { $$ = mknode('*', $1, $3); }
+    | expr '/' expr           { $$ = mknode('/', $1, $3); }
+    | expr '%' expr           { $$ = mknode('%', $1, $3); }
+    | expr '^' expr           { $$ = mknode('^', $1, $3); }
+    | expr '&' expr           { $$ = mknode('&', $1, $3); }
+    | expr '|' expr           { $$ = mknode('|', $1, $3); }
+    | expr '<' expr           { $$ = mknode('<', $1, $3); }
+    | expr '>' expr           { $$ = mknode('>', $1, $3); }
+    | '(' expr ')'            { $$ = $2; }
+    | expr '?' expr ':' expr  { $$ = mknode('?', $1, $3, $5); }
+    ;
+
+%%
+
+TreeNode* mkleaf(int type, int value) {
+  TreeNode* p = new TreeNode();
+  p->type = type;
+  p->leaf_value = value;
+  return p;
+}
+
+TreeNode* mknode(int type, TreeNode* a0, TreeNode* a1, TreeNode* a2, TreeNode* a3) {
+  TreeNode* p = new TreeNode();
+  p->type = type;
+  p->args[0] = a0;
+  p->args[1] = a1;
+  p->args[2] = a2;
+  p->args[3] = a3;
+  return p;
+}
+
+
+void print_syntax_tree(TreeNode* p) {
+  printf("\nSyntax tree:\n");
+  printtree1(p, 0);
+}
+
+void printtree1(TreeNode* p, int level) {
+    if (p==0)
+        return;
+    printf("%*s", level, "");
+    switch (p->type) {
+        case ' ':
+            printf("{}\n");
+            break;
+        case ID:
+            printf("%s\n", symtable[p->leaf_value].lexeme);
+            break;
+        case NUM:
+            printf("%d\n", p->leaf_value);
+            break;
+        case '=':
+            printf("=\n");
+            printtree1(p->args[0], level + 4);
+            printtree1(p->args[1], level + 4);
+            break;
+        case IF:
+            printf("if\n");
+            printtree1(p->args[0], level + 4);
+            printtree1(p->args[1], level + 4);
+            printtree1(p->args[2], level + 4);
+            break;
+        case WHILE:
+            printf("while\n");
+            printtree1(p->args[0], level + 4);
+            printtree1(p->args[1], level + 4);
+            break;
+        case PRINT:
+            printf("print\n");
+            printtree1(p->args[0], level + 4);
+            break;
+        case READ:
+            printf("read\n");
+            printtree1(p->args[0], level + 4);
+            break;
+        case '+':  case '-': case '*': case '/': case '%': case '^': case '&': case '|': case '<': case '>':
+            printf("%c\n", p->type);
+            printtree1(p->args[0], level + 4);
+            printtree1(p->args[1], level + 4);
+            break;
+        case '?':
+            printf("%c\n", p->type);
+            printtree1(p->args[0], level + 4);
+            printtree1(p->args[1], level + 4);
+            printtree1(p->args[2], level + 4);
+            break;
+        case ';':
+            printf(";\n");
+            printtree1(p->args[0], level + 4);
+            if (p->args[1] != 0) {
+                printtree1(p->args[1], level + 4);
+            }
+            break;
+    }
+}
+
+int yyerror(char const *msg) {
+    printf("Error: %s\n", msg);
+    return 0;
+}
+
+int main() {
+    yyparse();
+    exit(0);
+}

@@ -1,0 +1,70 @@
+# --- Testcase 1 --- #
+sum=0;
+product = 1;
+i=1;
+read(n);
+while (i < n) {
+    if (i % 100 > 0) { } else { print(i); }
+   sum = sum +1;
+   product = product * i;
+   i=i+1;
+}
+print(sum);
+print(product);
+
+## expected: input 10
+10
+9
+362880
+
+
+
+# --- Testcase 2: --- #
+x=3;
+y = (x>5) ? 13: 9;
+z = y^x * (5-3) / 18;
+if (y>0) {
+  print(z);
+  if (y > 10) {
+    print(y);
+  } else {
+    var = (x > 0) ? z%(y+5) : y;
+    while (var > 0) {    
+        print(var);
+        var = var-1;
+    }
+  }
+}
+
+## expected:
+81
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
